@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus | Студенттерге арналған платформа</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Бүйірлік мәзір -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>Smart Campus</h2>
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-btn active" data-tab="tasks">
+                <i class="fas fa-tasks"></i> Тапсырмалар
+            </button>
+            <button class="nav-btn" data-tab="events">
+                <i class="fas fa-calendar-alt"></i> Іс-шаралар
+            </button>
+            <button class="nav-btn" data-tab="profile">
+                <i class="fas fa-user"></i> Профиль
+            </button>
+            <button class="nav-btn" data-tab="messages">
+                <i class="fas fa-comment-dots"></i> Хабарламалар
+            </button>
+        </nav>
+        <div class="sidebar-footer">
+            <button id="darkModeToggle" class="dark-mode-btn">
+                <i class="fas fa-moon"></i> Қараңғы режим
+            </button>
+        </div>
+    </aside>
+
+    <!-- Негізгі контент -->
+    <main class="main-content">
+        <!-- Тапсырмалар беті -->
+        <div id="tasksTab" class="tab-content active">
+            <div class="tab-header">
+                <h1><i class="fas fa-tasks"></i> Менің тапсырмаларым</h1>
+                <button id="addTaskBtn" class="btn-primary"><i class="fas fa-plus"></i> Тапсырма қосу</button>
+            </div>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="taskSearch" placeholder="Тапсырма іздеу...">
+                <select id="taskFilter">
+                    <option value="all">Барлығы</option>
+                    <option value="pending">Күтілуде</option>
+                    <option value="in_progress">Орындалуда</option>
+                    <option value="done">Аяқталған</option>
+                </select>
+            </div>
+
+            <div id="tasksList" class="tasks-list"></div>
+        </div>
+
+        <!-- Іс-шаралар беті -->
+        <div id="eventsTab" class="tab-content">
+            <div class="tab-header">
+                <h1><i class="fas fa-calendar-alt"></i> Іс-шаралар</h1>
+                <button id="addEventBtn" class="btn-primary"><i class="fas fa-plus"></i> Іс-шара қосу</button>
+            </div>
+
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="eventSearch" placeholder="Іс-шара іздеу...">
+                <select id="eventCategoryFilter">
+                    <option value="all">Барлық санат</option>
+                    <option value="Спорт">Спорт</option>
+                    <option value="IT">IT</option>
+                    <option value="Өнер">Өнер</option>
+                </select>
+            </div>
+
+            <div id="eventsList" class="events-grid"></div>
+        </div>
+
+        <!-- Профиль беті -->
+        <div id="profileTab" class="tab-content">
+            <div class="tab-header">
+                <h1><i class="fas fa-user-circle"></i> Менің профилім</h1>
+                <button id="editProfileBtn" class="btn-secondary"><i class="fas fa-edit"></i> Өңдеу</button>
+            </div>
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    <img id="profileAvatar" src="https://randomuser.me/api/portraits/women/1.jpg" alt="Avatar">
+                    <button id="changeAvatarBtn" class="avatar-change"><i class="fas fa-camera"></i></button>
+                </div>
+                <div class="profile-info">
+                    <p><strong>Аты-жөні:</strong> <span id="fullName">Айдана Ержанова</span></p>
+                    <p><strong>Мамандығы:</strong> <span id="major">Ақпараттық жүйелер</span></p>
+                    <p><strong>Топ:</strong> <span id="group">АИ-302</span></p>
+                    <p><strong>Био:</strong> <span id="bio">Frontend әзірлеуші, волейболшыл 🏐</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Хабарламалар беті -->
+        <div id="messagesTab" class="tab-content">
+            <div class="tab-header">
+                <h1><i class="fas fa-comment-dots"></i> Хабарламалар</h1>
+            </div>
+            <div id="messagesList" class="messages-list"></div>
+        </div>
+    </main>
+</div>
+
+<!-- Модальды терезе (тапсырма қосу/өңдеу) -->
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Тапсырма қосу</h3>
+            <span class="close">&times;</span>
+        </div>
+        <form id="taskForm">
+            <input type="hidden" id="taskId">
+            <input type="text" id="taskTitle" placeholder="Тапсырма атауы" required>
+            <textarea id="taskDesc" placeholder="Сипаттама"></textarea>
+            <select id="taskStatusSelect">
+                <option value="pending">Күтілуде</option>
+                <option value="in_progress">Орындалуда</option>
+                <option value="done">Аяқталған</option>
+            </select>
+            <button type="submit" class="btn-primary">Сақтау</button>
+        </form>
+    </div>
+</div>
+
+<!-- Модальды терезе (іс-шара қосу) -->
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Іс-шара қосу</h3>
+            <span class="close-event">&times;</span>
+        </div>
+        <form id="eventForm">
+            <input type="text" id="eventTitle" placeholder="Іс-шара атауы" required>
+            <select id="eventCategorySelect">
+                <option>Спорт</option>
+                <option>IT</option>
+                <option>Өнер</option>
+            </select>
+            <input type="date" id="eventDate" required>
+            <input type="text" id="eventLocation" placeholder="Орны">
+            <button type="submit" class="btn-primary">Қосу</button>
+        </form>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
